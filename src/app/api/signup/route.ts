@@ -3,13 +3,14 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 import bcrypt from 'bcrypt'
 import { NextRequest, NextResponse } from "next/server";
+import { db } from '~/server/db';
 
 export async function POST(req: NextRequest, res: NextResponse) {
     const { name, email, password, confirmPassword } = await req.json()
     if (!name || !email || !password || !confirmPassword) return NextResponse.json({ message: "Please fill all the fields", status: 400 })
     if (password !== confirmPassword) return NextResponse.json({ message: "Password and confirm password should be same", status: 400 });
    
-    const userExists = await prisma.user.findUnique({
+    const userExists = await db.user.findUnique({
         where: {
             email: email
         }
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     else if (email === "recruiter@gmail.com") {
         role = "RECRUITER"
     }
-    const user = await prisma.user.create({
+    const user = await db.user.create({
         data: {
             name: name,
             email: email,
