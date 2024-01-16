@@ -80,6 +80,8 @@ export const authOptions: NextAuthOptions = {
 
   ],
   callbacks: {
+
+
     jwt: async ({ token, user }) => {
    
       if (user) {
@@ -110,6 +112,7 @@ export const authOptions: NextAuthOptions = {
     //   };
     // },
   },
+  
 };
 
 /**

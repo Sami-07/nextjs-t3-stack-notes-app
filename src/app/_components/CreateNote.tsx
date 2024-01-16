@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
-
-
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { Textarea } from '~/components/ui/textarea';
+import { IoIosArrowBack } from "react-icons/io";
+import { useRouter } from 'next/navigation';
 export default function CreateNote({ addNote, params, topicName }: { addNote: any, params: any, topicName: any }) {
+  const router = useRouter()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
   return (
     <div>
-      <p className='text-center font-semibold text-2xl my-5'>Add Note to {topicName}</p>
+          <IoIosArrowBack className='text-2xl my-5 ml-5' onClick={()=>router.push("/")} />
+        
+      <p className='text-center font-semibold text-2xl  mb-5 '>Add Note to {topicName}</p>
 
-      <form className='text-center flex flex-col justify-center items-center gap-5' onSubmit={(e) => {
+    
+      <form className='text-center flex flex-col justify-center items-center gap-5 w-96 mx-auto' onSubmit={(e) => {
         e.preventDefault();
         addNote.mutate({
           title: title,
@@ -22,11 +29,10 @@ export default function CreateNote({ addNote, params, topicName }: { addNote: an
 
       }
       }>
-
-        <input type='text' placeholder='Enter Title' className='border-2 text-black  rounded-lg p-2 w-1/2' value={title} onChange={e => setTitle(e.target.value)} />
-
-        <textarea placeholder='Enter Content' className='border-2 text-black  rounded-lg p-2 w-1/2 h-40' value={content} onChange={e => setContent(e.target.value)} />
-        <button type='submit' className='border-2 text-black  bg-white ml-4  rounded-lg p-2 px-6'>Add Note</button>
-      </form></div>
+        <Input className='border-2 border-white' placeholder='Enter Title' type='text' value={title} onChange={e => setTitle(e.target.value)} />
+        <Textarea placeholder='Enter Content' value={content} onChange={e => setContent(e.target.value)} />
+        <Button variant={'default'} size={'lg'}>Add Note</Button>
+      </form>
+      </div>
   )
 }

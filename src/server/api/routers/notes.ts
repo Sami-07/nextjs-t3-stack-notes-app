@@ -18,7 +18,8 @@ export const notesRouter = createTRPCRouter({
                 data: {
                     title: input.title,
                     content: input.content,
-                    topicId: input.topicId
+                    topicId: input.topicId,
+                    userId: ctx.session.user.id
                 }
             });
 
@@ -48,7 +49,7 @@ export const notesRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
             const notes = await ctx.db.note.findMany({
                 where: {
-                    // userId: ctx.session.user.id,
+                    userId: ctx.session.user.id,
                     topicId: input.topicId
                 },
             })

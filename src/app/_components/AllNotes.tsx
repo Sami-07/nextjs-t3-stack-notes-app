@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { api } from '~/trpc/react'
 export default function AllNotes({ allNotes, topicName, refetchNotes }: { allNotes: any, topicName: any, refetchNotes: any }) {
+    const [readMoreId, setReadMoreId] = useState<any>(null)
+    const [openedNotes, setOpenedNotes] = useState<any>([])
     const deleteNote = api.notes.deleteNote.useMutation({
         onSuccess: () => {
             refetchNotes();
@@ -24,13 +26,26 @@ export default function AllNotes({ allNotes, topicName, refetchNotes }: { allNot
                                     })
                                 }} className='bg-orange-500 text-white px-2 rounded-lg' >Delete</button>
                             </div>
-                            <p><span className='font-semibold mr-1'>Content:</span> {note.content}</p>
+                            <p><span className='font-semibold mr-1'>Content:</span>
+
+
+                                {(openedNotes.includes(note.id)) ? note.content : `${(note.content).substring(0, 100)}...`} 
+
+
+                                <span className='underline font-semibold cursor-pointer' onClick={() => { setOpenedNotes([...openedNotes, note.id]) }
+                                }>{!(openedNotes.includes(note.id)) && "Read More"}
+                                </span>
+                                <span className='underline font-semibold cursor-pointer' onClick={() => { setOpenedNotes((prevNotes: any) => prevNotes.filter((id: any) => id !== note.id)) }
+                                }>{(openedNotes.includes(note.id)) && "Read Less"}
+                                </span>
+
+                            </p>
 
                         </div>
                     )
                 })
                 }
-            </div>
+            </div >
 
         </>
     )

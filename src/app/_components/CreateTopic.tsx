@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { api } from "~/trpc/react";
 import { useSession } from 'next-auth/react';
+import { Input } from '~/components/ui/input';
+import { Button } from '~/components/ui/button';
 export default function CreateTopic() {
     const [title, setTitle] = useState("");
-const session = useSession();
+    const session = useSession();
 
     const { data: allTopics, refetch: refetchTopics } = api.topic.getAll.useQuery(undefined, {
         enabled: session?.data?.user?.name !== undefined
@@ -18,17 +20,18 @@ const session = useSession();
         },
     });
     return (
-        <div>  <form className='text-center' onSubmit={(e) => {
-            e.preventDefault();
-            createTopic.mutate({
-                title: title,
-            })
-            setTitle('')
-        }
-        }>
-
-            <input type='text' placeholder='Enter topic' className='border-2 text-black  rounded-lg p-2' value={title} onChange={e => setTitle(e.target.value)} />
-            <button type='submit' className='border-2 text-black  bg-white ml-4 px-2 rounded-lg p-2'>Create Topic</button>
-        </form></div>
+        <div>
+            <form className=' text-center flex flex-col justify-center items-center gap-5 w-96 mx-auto  ' onSubmit={(e) => {
+                e.preventDefault();
+                createTopic.mutate({
+                    title: title,
+                })
+                setTitle('')
+            }
+            }>
+                <Input className='border-2 border-white' placeholder='Enter topic' type='text' value={title} onChange={e => setTitle(e.target.value)} />
+                <Button variant={'default'} size={'lg'}>Create Topic</Button>
+            </form>
+            </div>
     )
 }
