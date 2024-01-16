@@ -6,36 +6,25 @@ import { useSession } from 'next-auth/react';
 import CreateTopic from './_components/CreateTopic';
 import AllTopics from './_components/AllTopics';
 import { useRouter } from 'next/navigation';
-import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card"
-
 export default function Home() {
-  const router = useRouter();
   // const session = await getServerAuthSession();
   const session = useSession({
-    // required: true,
-    // onUnauthenticated() {
-    //     router.push('/signin')
-    // }
-  });
+    required: true,
+    onUnauthenticated() {
+        router.push('/signin')
+    }
+});
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
-
   useEffect(() => {
-
+   
     if (session?.data?.user?.name) {
       setName(session?.data?.user?.name!) //! indicates that it is not null.
-      console.log(session)
-    }
-
-
+  }
+  else{
+    window.location.href = '/signin'
+  }
+    
   }, [session])
   const { data: hello } = api.topic.sayHello.useQuery();
   // we are destructuring the data from the response of the query as "hello".
@@ -87,11 +76,6 @@ export default function Home() {
     // </div>
 
     <>
-      {!name && <div className='gradient h-screen text-white py-10'>
-        <p className='underline underline-offset-4 font-semibold text-center' onClick={() => window.location.href = "/signin"}>Please Sign in</p>
-      </div>
-      }
-
       {name && <div className='gradient h-screen text-white py-10'>
         <h1 className='text-3xl text-center font-semibold'>Hello, {name} !</h1>
         <h1 className='text-2xl text-center font-semibold my-4'>Take your Notes here.</h1>

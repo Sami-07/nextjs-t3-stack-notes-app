@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt";
-
+const prisma = new PrismaClient()
 import {
   getServerSession,
   type DefaultSession,
@@ -11,7 +11,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
-// const prisma = new PrismaClient()
+
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials: any) {
         try {
-          const userFound = await db.user.findUnique({
+          const userFound = await prisma.user.findUnique({
             where: {
               email: credentials.email
             }

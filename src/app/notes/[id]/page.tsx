@@ -7,16 +7,14 @@ import { api } from '~/trpc/react'
 import AllNotes from '~/app/_components/AllNotes'
 import CreateNote from '~/app/_components/CreateNote'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 export default function Page() {
-    const router = useRouter()
 
 
     const session = useSession({
-        // required: true,
-        // onUnauthenticated() {
-        //     router.push('/signin')
-        // }
+        required: true,
+        onUnauthenticated() {
+            router.push('/signin')
+        }
     });
 
 
@@ -33,30 +31,19 @@ export default function Page() {
         },
         onError: (error) => {
             console.error("An error occurred:", error.message);
-        
+            // Handle the error here. You might want to show a notification to the user, for example.
         },
     }
     )
     const { data: topicName } = api.notes.getTopic.useQuery({ topicId: params.id },
-
-
         { enabled: session?.data?.user?.name !== undefined })
-    console.log("topic name", topicName)
-
 
     return (
-        <>
-            {topicName && <div>
+        <div>
+            {/* This is topic ID: {params.id} */}
+            <CreateNote addNote={addNote} params={params} topicName={topicName} />
 
-                {/* This is topic ID: {params.id} */}
-                <CreateNote addNote={addNote} params={params} topicName={topicName} />
-
-                <AllNotes allNotes={allNotes} topicName={topicName} refetchNotes={refetchNotes} />
-            </div>}
-            {!topicName && <div>
-                <p className='text-3xl font-semibold text-center'>No topic found</p>
-            </div>
-            }
-        </>
+            <AllNotes allNotes={allNotes} topicName={topicName} refetchNotes={refetchNotes} />
+        </div>
     )
 }
