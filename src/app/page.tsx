@@ -6,15 +6,25 @@ import { useSession } from 'next-auth/react';
 import CreateTopic from './_components/CreateTopic';
 import AllTopics from './_components/AllTopics';
 import { useRouter } from 'next/navigation';
+import { Button } from "../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card"
+
 export default function Home() {
   const router = useRouter();
   // const session = await getServerAuthSession();
   const session = useSession({
-    required: true,
-    onUnauthenticated() {
-        router.push('/signin')
-    }
-});
+    // required: true,
+    // onUnauthenticated() {
+    //     router.push('/signin')
+    // }
+  });
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
 
@@ -90,8 +100,24 @@ export default function Home() {
 
         <CreateTopic />
         <AllTopics />
+        <Button variant={'default'} size={'lg'} >Go to Notes</Button>
+
+
 
       </div>}
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
+
     </>
   )
 }

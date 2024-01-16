@@ -13,10 +13,10 @@ export default function Page() {
 
 
     const session = useSession({
-        required: true,
-        onUnauthenticated() {
-            router.push('/signin')
-        }
+        // required: true,
+        // onUnauthenticated() {
+        //     router.push('/signin')
+        // }
     });
 
 
