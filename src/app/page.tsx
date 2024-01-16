@@ -9,10 +9,10 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   // const session = await getServerAuthSession();
   const session = useSession({
-    required: true,
-    onUnauthenticated() {
-        router.push('/signin')
-    }
+    // required: true,
+    // onUnauthenticated() {
+    //     router.push('/signin')
+    // }
 });
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -84,23 +84,12 @@ export default function Home() {
 
         <CreateTopic />
         <AllTopics />
-        <Button variant={'default'} size={'lg'} >Go to Notes</Button>
+        
 
 
 
       </div>}
-      <Card>
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
-      </Card>
+      
 
     </>
   )

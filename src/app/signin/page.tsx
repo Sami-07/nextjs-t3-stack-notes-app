@@ -1,5 +1,5 @@
 "use client";
-import { Button } from '@/components/ui/button';
+
 import { signIn } from 'next-auth/react';
 import React, { useState } from 'react'
 
@@ -30,8 +30,8 @@ export default function Signin() {
 
         <input type="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-<Button variant={'default' } size={'lg'}>Signin</Button>
-        {/* <button type='submit'>Sign IN</button> */}
+
+        <button type='submit'>Sign IN</button>
       </form>
 
     </div>
